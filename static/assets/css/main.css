@@ -56,7 +56,7 @@ button:focus,
 select {
   -webkit-writing-mode: horizontal-tb !important;
   text-rendering: auto;
-  color: #24126A;
+  color: #13132f;
   letter-spacing: normal;
   word-spacing: normal;
   text-transform: none;
@@ -121,7 +121,7 @@ h5,
 h6 {
   font-weight: 600;
   margin: 0px;
-  color: #24126A;
+  color: #13132f;
   font-family: 'Spartan', sans-serif;
 }
 
@@ -981,7 +981,7 @@ ol {
   padding-bottom: 120px;
   z-index: 2;
   text-align: left;
-  background-color: #24126A;
+  background-color: #13132f;
   background-image: url("../images/bread-bg/banner-bg.svg");
   background-size: cover;
   background-position: right;
@@ -997,7 +997,7 @@ ol {
   top: 0;
   height: 100%;
   width: 100%;
-  background-color: #24126A;
+  background-color: #13132f;
   opacity: 0.7;
 }
 
@@ -1291,7 +1291,7 @@ ol {
   width: 100%;
   height: 100%;
   opacity: 0.4;
-  background: #24126A;
+  background: #13132f;
   content: "";
   -webkit-transition: all 0.4s ease;
   transition: all 0.4s ease;
@@ -1416,7 +1416,7 @@ ol {
 
 .button .btn:hover {
   color: #fff;
-  background-color: #24126A;
+  background-color: #13132f;
 }
 
 .button {
@@ -1424,7 +1424,7 @@ ol {
 }
 
 .button .btn-alt {
-  background-color: #24126A !important;
+  background-color: #13132f !important;
   color: #fff !important;
 }
 
@@ -1753,7 +1753,7 @@ ol {
 }
 
 .header.sticky .button .btn:hover {
-  background-color: #24126A;
+  background-color: #13132f;
   color: #fff;
 }
 
@@ -1783,7 +1783,7 @@ ol {
 }
 
 .sticky .navbar .navbar-nav .nav-item a {
-  color: #24126A;
+  color: #13132f;
 }
 
 .header .navbar .navbar-nav .nav-item .sub-menu a.active {
@@ -2068,7 +2068,7 @@ ol {
 
 .header .button .btn {
   background-color: #fff;
-  color: #24126A;
+  color: #13132f;
   font-weight: 500;
 }
 
@@ -2089,7 +2089,7 @@ ol {
 
 @media only screen and (min-width: 768px) and (max-width: 991px), (max-width: 767px) {
   .header .button .signin {
-    color: #24126A;
+    color: #13132f;
   }
   .header .button .signin:hover {
     color: #3E80FF;
@@ -2112,7 +2112,7 @@ ol {
 ========================================*/
 .hero-area {
   position: relative;
-  background-color: #24126A;
+  background-color: #13132f;
   padding: 160px 0 40px 0;
   z-index: 1;
 }
@@ -2210,7 +2210,7 @@ ol {
 }
 
 .hero-area .hero-content .button .btn:hover {
-  color: #24126A;
+  color: #13132f;
   background-color: #fff;
 }
 
@@ -2671,7 +2671,7 @@ ol {
 }
 
 .feature .feature-box .text-title {
-  color: #3b368c;
+  color: #2196f3;
   font-size: 18px;
   line-height: 28px;
   font-weight: 700;
@@ -2690,7 +2690,7 @@ ol {
 ========================================*/
 .footer {
   margin-top: -80px;
-  background-color: #24126A;
+  background-color: #13132f;
   position: relative;
   padding-bottom: 0;
 }
