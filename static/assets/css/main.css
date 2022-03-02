@@ -56,7 +56,7 @@ button:focus,
 select {
   -webkit-writing-mode: horizontal-tb !important;
   text-rendering: auto;
-  color: #f8fcff;
+  /* color: #f8fcff; */
   letter-spacing: normal;
   word-spacing: normal;
   text-transform: none;
@@ -1545,7 +1545,7 @@ ol {
     padding: 18px 0 !important;
   }
   .header .mobile-menu-btn .toggler-icon {
-    background-color: #fff;
+    background-color: #222;
   }
   .header .button {
     margin: 0 !important;
@@ -1771,7 +1771,7 @@ ol {
 .navbar-expand-lg .navbar-nav {
   margin: 0;
   margin-left: auto !important;
-  margin-right: auto !important;
+  /* margin-right: auto !important; */
 }
 
 .header .navbar .navbar-nav .nav-item a.active {
@@ -2951,7 +2951,7 @@ ol {
 input {
   width: 100%;
   height: 40px;
-  border-radius: 5px;
+  /* border-radius: 5px; */
   padding: 20px;
 }
 
