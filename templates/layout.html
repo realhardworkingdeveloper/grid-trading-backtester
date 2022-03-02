@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zxx">
+  <head>
+    {% block head %}
+        <meta charset="utf-8" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <title>Crypto Grid Trading Simulator</title>
+
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='assets/images/favicon.svg') }}" />
+
+        <!-- ========================= CSS here ========================= -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/classic.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/classic.date.css') }}">
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/bootstrap.min.css') }}" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/LineIcons.3.0.css') }}" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/animate.css') }}" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/tiny-slider.css') }}" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/glightbox.min.css') }}" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main.css') }}" />
+    {% endblock %}
+  </head>
+  <body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="preloader-inner">
+            <div class="preloader-icon">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <!-- /End Preloader -->
+
+    <!-- Start Header Area -->
+    <header class="header navbar-area">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12">
+                    <div class="nav-inner">
+                        <!-- Start Navbar -->
+                        <nav class="navbar navbar-expand-lg">
+                            <a class="navbar-brand" href="#">
+                                <img src="{{ url_for('static', filename='assets/images/logo/white-logo.svg') }}" alt="Logo">
+                            </a>
+                            <button class="navbar-toggler mobile-menu-btn" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="toggler-icon"></span>
+                                <span class="toggler-icon"></span>
+                                <span class="toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse sub-menu-bar offset-lg-4" id="navbarSupportedContent">
+                                <ul id="nav" class="navbar-nav ms-auto">
+                                    <li class="nav-item">
+                                        <a href="https://testnet.degate.com/" target="_blank" class="active" aria-label="Toggle navigation">DeGate.com</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="https://3commas.io/" target="_blank" aria-label="Toggle navigation">3Commas.io</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="https://www.binance.com/en" target="_blank" aria-label="Toggle navigation">Binance.com</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" aria-label="Toggle navigation">Report</a>
+                                    </li>
+                                </ul>
+                            </div> <!-- navbar collapse -->
+                        </nav>
+                        <!-- End Navbar -->
+                    </div>
+                </div>
+            </div> <!-- row -->
+        </div> <!-- container -->
+    </header>
+    <!-- End Header Area -->
+
+    <!-- Start Hero Area -->
+    <section class="hero-area">
+        <img class="hero-shape" src="{{ url_for('static', filename='assets/images/hero/hero-shape.svg') }}" alt="#">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="text-center lg:max-w-4xl text-4xl lg:text-6xl mx-auto">
+                    <h1 class="font-semibold tracking-tighter text-gray-900 text-white">Grid Trading</h1>
+                    <h1 class="mx-auto font-semibold tracking-tighter special-text text-white">Calculator &amp; Simulator</h1>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="offset-lg-2 col-lg-8 col-12">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+                <div class="col-lg-2 col-12">
+                    <div class="hero-image">
+                        <img class="main-image" src="{{ url_for('static', filename='assets/images/hero/home2-bg.png') }}" alt="#">
+                        <img class="h2-move-1" src="{{ url_for('static', filename='assets/images/hero/h2-bit-l.png') }}" alt="#">
+                        <img class="h2-move-2" src="{{ url_for('static', filename='assets/images/hero/h2-bit-m.png') }}" alt="#">
+                        <img class="h2-move-3" src="{{ url_for('static', filename='assets/images/hero/h2-bit-s.png') }}" alt="#">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Hero Area -->
+
+    <!-- Start Footer Area -->
+    <footer class="footer section">
+        <!-- Start Copyright Area -->
+        <div class="copyright-area">
+            <div class="container">
+                <div class="inner-content">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <p class="copyright-text">© 2022 Crypto Grid Trading Simulator</p>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <p class="copyright-owner">Designed and Developed by <a href="#"
+                                    rel="nofollow" target="_blank">UIdeck</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Copyright Area -->
+    </footer>
+    <!--/ End Footer Area -->
+
+    <!-- ========================= scroll-top ========================= -->
+    <a href="#" class="scroll-top">
+        <i class="lni lni-chevron-up"></i>
+    </a>
+
+    <!-- ========================= JS here ========================= -->
+    <script src="{{ url_for('static', filename='assets/js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/popper.min.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='assets/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/wow.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/tiny-slider.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/glightbox.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/count-up.min.js') }}"></script>
+    
+    <script src="{{ url_for('static', filename='assets/js/picker.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/picker.date.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    {% block custom_js %}
+    {% endblock %}
+  </body>
+</html>
