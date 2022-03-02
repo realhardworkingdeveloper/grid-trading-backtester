@@ -11,15 +11,16 @@
         <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='assets/images/favicon.svg') }}" />
 
         <!-- ========================= CSS here ========================= -->
-        <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/classic.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/classic.date.css') }}">
 
         <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/bootstrap.min.css') }}" />
         <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/LineIcons.3.0.css') }}" />
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
         <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/animate.css') }}" />
         <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/tiny-slider.css') }}" />
         <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/glightbox.min.css') }}" />
         <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main.css') }}" />
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/datepicker.css') }}" />
     {% endblock %}
   </head>
   <body>
@@ -132,20 +133,21 @@
     </a>
 
     <!-- ========================= JS here ========================= -->
+
     <script src="{{ url_for('static', filename='assets/js/jquery-3.3.1.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='assets/js/popper.min.js') }}"></script>
+    <!-- <script src="{{ url_for('static', filename='assets/js/popper.min.js') }}"></script> -->
 
     <script src="{{ url_for('static', filename='assets/js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='assets/js/wow.min.js') }}"></script>
     <script src="{{ url_for('static', filename='assets/js/tiny-slider.js') }}"></script>
     <script src="{{ url_for('static', filename='assets/js/glightbox.min.js') }}"></script>
     <script src="{{ url_for('static', filename='assets/js/count-up.min.js') }}"></script>
-    
-    <script src="{{ url_for('static', filename='assets/js/picker.js') }}"></script>
-    <script src="{{ url_for('static', filename='assets/js/picker.date.js') }}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="{{ url_for('static', filename='assets/js/bootstrap-datepicker.js') }}"></script>
 
     <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     {% block custom_js %}
     {% endblock %}
