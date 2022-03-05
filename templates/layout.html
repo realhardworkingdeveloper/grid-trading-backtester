@@ -44,7 +44,14 @@
                         <!-- Start Navbar -->
                         <nav class="navbar navbar-expand-lg">
                             <a class="navbar-brand" href="#">
-                                <img src="{{ url_for('static', filename='assets/images/logo/white-logo.svg') }}" alt="Logo">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <img src="{{ url_for('static', filename='assets/images/logo/white-logo.svg') }}" alt="Logo" />
+                                    </div>
+                                    <div class="col-8">
+                                        <h5 class="font-semibold tracking-tighter text-gray-900 text-white main-title" style="margin-top: 10px;margin-left: -10px;">Grid Trading</h5>
+                                    </div>
+                                </div>
                             </a>
                             <button class="navbar-toggler mobile-menu-btn" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -57,12 +64,6 @@
                                 <ul id="nav" class="navbar-nav ms-auto">
                                     <li class="nav-item">
                                         <a href="https://testnet.degate.com/" target="_blank"  aria-label="Toggle navigation">DeGate.com</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="https://3commas.io/" target="_blank" aria-label="Toggle navigation">3Commas.io</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="https://www.binance.com/en" target="_blank" aria-label="Toggle navigation">Binance.com</a>
                                     </li>
                                 </ul>
                             </div> <!-- navbar collapse -->
@@ -83,6 +84,7 @@
                 <div class="text-center lg:max-w-4xl text-4xl lg:text-6xl mx-auto">
                     <h1 class="font-semibold tracking-tighter text-gray-900 text-white main-title">Grid Trading</h1>
                     <h1 class="mx-auto font-semibold tracking-tighter special-text text-white main-subtitle">Calculator &amp; Simulator</h1>
+                    <h6 style="color: #555 !important;padding-top: 5px;">Easily calculate potential profits from your grid trading set up.<br/> Optimize your trading set-up via historical data pulled from Binance API.</h6>
                 </div>
             </div>
             <div class="row align-items-center">
@@ -133,7 +135,7 @@
     <!-- ========================= JS here ========================= -->
 
     <script src="{{ url_for('static', filename='assets/js/jquery-3.3.1.min.js') }}"></script>
-    <!-- <script src="{{ url_for('static', filename='assets/js/popper.min.js') }}"></script> -->
+    <script src="{{ url_for('static', filename='assets/js/popper.min.js') }}"></script>
 
     <script src="{{ url_for('static', filename='assets/js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='assets/js/wow.min.js') }}"></script>

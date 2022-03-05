@@ -49,10 +49,10 @@ def report():
     apy = round((profit / amount_for_bot_usage) * 10000) / 100
 
     with open("log.txt", "a") as f:
-        f.write("ETH/USDC," + labels[0] + "," + labels[-1] + "," + str(profit) + "," + str(apy) + "\n")
+        f.write("ETH/USDC," + str(upper_limit) + ","  + str(lower_limit) + "," + str(amount_for_bot_usage) + "USDC," + str(grid_quantity) + "," + str(quantity_per_grid) + "," + labels[0] + "," + labels[-1] + "," + str(profit) + "," + str(apy) + "\n")
         f.close()
     
     return jsonify(profits = profits, labels = labels, profit = profit, apy = apy)
   
 if __name__ =='__main__':
-    app.run(debug = True)
+    app.run(debug = True, host = '0.0.0.0', port = 5000)

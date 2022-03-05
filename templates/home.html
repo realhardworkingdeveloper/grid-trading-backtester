@@ -77,12 +77,15 @@
                     </div>
                     <div class="row">
                         <div class="col-8">
-                            <input id="deposit_amount" type="number" value="50" />
+                            <input id="deposit_amount" value="45" disabled/>
                         </div>
                         <div class="col-4">
-                            <select>
+                            <select id="deposit_amount_select">
                                 <option value="0" >
                                     ETH
+                                </option>
+                                <option value="1" >
+                                    USDC
                                 </option>
                             </select>
                         </div>
@@ -181,7 +184,7 @@
                         <div class="offset-3 col-3" style="align-self: center;">
                             <button id="submit" class="btn btn-primary" type="button">
                                 <span id="spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                <span id="spinner_text" class="sr-only">SIMULATE</span>
+                                <span id="spinner_text" class="sr-only">Calculate</span>
                             </button>
                         </div>
                     </div>
@@ -234,17 +237,71 @@
                                 <th scope="col">To</th>
                                 <th scope="col">Profit</th>
                                 <th scope="col">APY</th>
+                                <th scope="col">Details</th>
                                 </tr>
                             </thead>
                             <tbody id="log">
                                 {% for log in logs %}
-                                <tr>
+                                <tr style="vertical-align: middle;">
                                     <th scope="row">{{ loop.index }}</th>
                                     <td>ETH / USDC</td>
-                                    <td>{{ log[1] }}</td>
-                                    <td>{{ log[2] }}</td>
-                                    <td>$ {{ log[3] }}</td>
-                                    <td>{{ log[4] }} %</td>
+                                    <td>{{ log[6] }}</td>
+                                    <td>{{ log[7] }}</td>
+                                    <td>$ {{ log[8] }}</td>
+                                    <td>{{ log[9] }} %</td>
+                                    <td>
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detail{{ loop.index }}">
+                                            More
+                                        </button>
+                                        
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="detail{{ loop.index }}" tabindex="-1" aria-labelledby="detailTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered modal-xl">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                <h5 class="modal-title" id="detailTitle">Details</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr style="vertical-align: middle;">
+                                                                <th>Trading Pair</th>
+                                                                <th>Upper Price Limit</th>
+                                                                <th>Lower Price Limit</th>
+                                                                <th>Deposit Amount</th>
+                                                                <th>Grid Quantity</th>
+                                                                <th>Quantity per Grid</th>
+                                                                <th>From</th>
+                                                                <th>To</th>
+                                                                <th>Profit($)</th>
+                                                                <th>APY(%)</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>ETH / USDC</td>
+                                                                <td>{{ log[1] }}</td>
+                                                                <td>{{ log[2] }}</td>
+                                                                <td>{{ log[3] }}</td>
+                                                                <td>{{ log[4] }}</td>
+                                                                <td>{{ log[5] }}</td>
+                                                                <td>{{ log[6] }}</td>
+                                                                <td>{{ log[7] }}</td>
+                                                                <td>{{ log[8] }}</td>
+                                                                <td>{{ log[9] }}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>

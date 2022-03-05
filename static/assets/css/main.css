@@ -1642,7 +1642,7 @@ ol {
     padding: 18px 0 !important;
   }
   .header .mobile-menu-btn .toggler-icon {
-    background-color: #fff;
+    background-color: #000;
   }
   .header .navbar-collapse {
     position: absolute;
@@ -1732,18 +1732,18 @@ ol {
 }
 
 .header .navbar-brand img {
-  width: 200px;
+  width: 44px;
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .header .navbar-brand img {
-    width: 190px;
+    /* width: 190px; */
   }
 }
 
 @media (max-width: 767px) {
   .header .navbar-brand img {
-    width: 180px;
+    /* width: 180px; */
   }
 }
 
@@ -2972,4 +2972,8 @@ input {
 
 .main-subtitle {
   color: #2196f3 !important;
+}
+
+.modal-title {
+  color: #222;
 }
