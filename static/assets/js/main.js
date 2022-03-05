@@ -111,7 +111,7 @@
         let quantity_per_grid = +$("#quantity_per_grid").val()
         
         if(select == '0') {
-          deposit_amount = (grid_quantity) * quantity_per_grid
+          deposit_amount = ((upper_limit + lower_limit) / 2 * grid_quantity - upper_limit) * quantity_per_grid
           
           if(deposit_amount > 0) {
             $("#deposit_amount").val(deposit_amount)
@@ -119,7 +119,7 @@
             $("#deposit_amount").val("Invalid Parameters")
           }
         } else {
-          deposit_amount = ((upper_limit + lower_limit) / 2 * (grid_quantity - 1) - upper_limit) * quantity_per_grid
+          deposit_amount = (grid_quantity - 1) * quantity_per_grid
           
           if(deposit_amount > 0) {
             $("#deposit_amount").val(deposit_amount)
