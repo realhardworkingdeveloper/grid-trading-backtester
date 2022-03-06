@@ -41,6 +41,57 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="row">
+                        <h4 class="text-title">Start Date</h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <input id="start_date" type="text" class="datepicker form-control clickable input-md" placeholder="Select Start Date">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <p id="start_date_error" class="text-danger">Start Date should be past date.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="row">
+                        <h4 class="text-title">End Date</h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <input id="end_date" type="text" class="datepicker form-control clickable input-md" placeholder="Select End Date">
+                              </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <p id="end_date_error_0" class="text-danger">End Date should be past date.</p>
+                            <p id="end_date_error_1" class="text-danger">End Date should be after start date.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="row">
+                    <div class="col-6">
+                        <h4 class="text-title">Price Histogram</h4>
+                    </div>
+                    <div class="offset-3 col-3" style="align-self: center;">
+                        <button id="update" class="btn btn-primary" type="button">
+                            <span id="update_spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span id="update_spinner_text" class="sr-only">Update</span>
+                        </button>
+                    </div>
+                </div>
+                <canvas id="price_hist" width="100%"></canvas>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="row">
                         <h4 class="text-title">Upper Price Limit</h4>
                     </div>
                     <div class="row">
@@ -138,44 +189,6 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6">
-                    <div class="row">
-                        <h4 class="text-title">Start Date</h4>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <input id="start_date" type="text" class="datepicker form-control clickable input-md" placeholder="Select Start Date">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <p id="start_date_error" class="text-danger">Start Date should be past date.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="row">
-                        <h4 class="text-title">End Date</h4>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <input id="end_date" type="text" class="datepicker form-control clickable input-md" placeholder="Select End Date">
-                              </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <p id="end_date_error_0" class="text-danger">End Date should be past date.</p>
-                            <p id="end_date_error_1" class="text-danger">End Date should be after start date.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
                 <div class="col-lg-12">
                     <div class="row">
                         <div class="col-6">
@@ -241,69 +254,6 @@
                                 </tr>
                             </thead>
                             <tbody id="log">
-                                {% for log in logs %}
-                                <tr style="vertical-align: middle;">
-                                    <th scope="row">{{ loop.index }}</th>
-                                    <td>ETH / USDC</td>
-                                    <td>{{ log[6] }}</td>
-                                    <td>{{ log[7] }}</td>
-                                    <td>$ {{ log[8] }}</td>
-                                    <td>{{ log[9] }} %</td>
-                                    <td>
-                                        <!-- Button trigger modal -->
-                                        <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detail{{ loop.index }}">
-                                            More
-                                        </button>
-                                        
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="detail{{ loop.index }}" tabindex="-1" aria-labelledby="detailTitle" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered modal-xl">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                <h5 class="modal-title" id="detailTitle">Details</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <table class="table">
-                                                        <thead>
-                                                            <tr style="vertical-align: middle;">
-                                                                <th>Trading Pair</th>
-                                                                <th>Upper Price Limit</th>
-                                                                <th>Lower Price Limit</th>
-                                                                <th>Deposit Amount</th>
-                                                                <th>Grid Quantity</th>
-                                                                <th>Quantity per Grid</th>
-                                                                <th>From</th>
-                                                                <th>To</th>
-                                                                <th>Profit($)</th>
-                                                                <th>APY(%)</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>ETH / USDC</td>
-                                                                <td>{{ log[1] }}</td>
-                                                                <td>{{ log[2] }}</td>
-                                                                <td>{{ log[3] }}</td>
-                                                                <td>{{ log[4] }}</td>
-                                                                <td>{{ log[5] }}</td>
-                                                                <td>{{ log[6] }}</td>
-                                                                <td>{{ log[7] }}</td>
-                                                                <td>{{ log[8] }}</td>
-                                                                <td>{{ log[9] }}</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                </div>
-                                            </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                {% endfor %}
                             </tbody>
                         </table>
                     </div>

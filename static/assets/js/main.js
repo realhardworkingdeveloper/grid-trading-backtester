@@ -5,11 +5,79 @@
       // It is for preloader
       window.setTimeout(fadeout, 500);
 
+      let saved_data = JSON.parse(localStorage.getItem("profit"));
+      if (saved_data !== null)
+        saved_data.forEach(backtest_data => {
+          $("#log").append(
+            `<tr>
+              <th scope='row'>${ backtest_data[0] }</th>
+              <td>${ backtest_data[1] }</td>
+              <td>${ backtest_data[7] }</td>
+              <td>${ backtest_data[8] }</td>
+              <td>$ ${ backtest_data[9] }</td>
+              <td>${ backtest_data[10] } %</td>
+              <td>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detail${backtest_data[0]}">
+                    More
+                </button>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="detail${backtest_data[0]}" tabindex="-1" aria-labelledby="detailTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="detailTitle">Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table">
+                                <thead>
+                                    <tr style="vertical-align: middle;">
+                                        <th>Trading Pair</th>
+                                        <th>Upper Price Limit</th>
+                                        <th>Lower Price Limit</th>
+                                        <th>Deposit Amount(USDC)</th>
+                                        <th>Grid Quantity</th>
+                                        <th>Quantity per Grid(ETH)</th>
+                                        <th>From</th>
+                                        <th>To</th>
+                                        <th>Profit($)</th>
+                                        <th>APY(%)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>${ backtest_data[1] }</td>
+                                        <td>${ backtest_data[2] }</td>
+                                        <td>${ backtest_data[3] }</td>
+                                        <td>${ backtest_data[4] }</td>
+                                        <td>${ backtest_data[5] }</td>
+                                        <td>${ backtest_data[6] }</td>
+                                        <td>${ backtest_data[7] }</td>
+                                        <td>${ backtest_data[8] }</td>
+                                        <td>${ backtest_data[9] }</td>
+                                        <td>${ backtest_data[10] }</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </td>
+            </tr>`
+          );
+        });
+
       // Init Chart
 
-      const ctx = document.getElementById('profit').getContext('2d');
+      const ctx1 = document.getElementById('profit').getContext('2d');
 
-      const data = {
+      const data1 = {
           labels: [],
           datasets: [{
               label: 'ETH / USDC',
@@ -21,9 +89,9 @@
           }]
       };
 
-      const config = {
+      const config1 = {
           type: 'line',
-          data: data,
+          data: data1,
           options: {
               plugins: {
                   filler: {
@@ -36,11 +104,42 @@
           },
       };
 
-      const myChart = new Chart(ctx, config);
+      const profit_chart = new Chart(ctx1, config1);
+
+      // Price hist
+      const ctx2 = document.getElementById('price_hist').getContext('2d');
+
+      const data2 = {
+        labels: [],
+        datasets: [{
+          label: 'Price Histogram',
+          barPercentage: 1,
+          categoryPercentage: 1,
+          data: [],
+          backgroundColor: 'rgba(255, 0, 0, 0.7)',
+        }]
+      };
+
+      const config2 = {
+        type: 'bar',
+        data: data2,
+        options: {
+          scales: {
+            y: {
+              ticks:{
+                display: false
+              }
+            }
+          }
+        },
+      };
+
+      const price_chart = new Chart(ctx2, config2);
 
       // It is for error message
       $(".text-danger").hide();
       $("#spinner").hide();
+      $("#update_spinner").hide();
 
       // It is for DatePicker
       var nowTemp = new Date();
@@ -182,8 +281,45 @@
         $('#deposit_amount_select').trigger('change');
       });
 
+      $("#update").click(function() {
+        let start_date = $("#start_date").val()
+        let end_date= $("#end_date").val()
+
+        start_date = changeDateFormat(start_date);
+        end_date = changeDateFormat(end_date);
+
+        if(Date.parse(start_date) >= Date.parse(end_date)) {
+          $("#end_date_error_1").show();
+          return
+        } else {
+          $("#end_date_error_1").hide();
+        }
+
+        if (Date.parse(end_date) > Date.now() || Date.parse(start_date) > Date.now() || start_date == '' || end_date == '') {
+          alert("Check Start Date and End Date");
+          return
+        }
+
+        $("#update").prop('disabled', true);
+        $("#update_spinner").show();
+        $("#update_spinner_text").text("Updating...");
+
+        $.getJSON('/update', {
+          start_date: Date.parse(start_date),
+          end_date: Date.parse(end_date),
+        }, function(res) {
+          console.log(res)
+          removeData(price_chart);
+          addData(price_chart, res.price_label, res.price_hist)
+
+          $("#update").prop('disabled', false);
+          $("#update_spinner").hide();
+          $("#update_spinner_text").text("Update");
+        });
+      });
+
       // It is for submit button
-      $("#submit").click(function(){
+      $("#submit").click(function() {
         let deposit_amount = +$("#deposit_amount").val()
         let upper_limit = +$("#upper_limit").val()
         let lower_limit = +$("#lower_limit").val()
@@ -227,8 +363,8 @@
             start_date: Date.parse(start_date),
             end_date: Date.parse(end_date),
         }, function(res) {
-          removeData(myChart);
-          addData(myChart, res.labels, res.profits)
+          removeData(profit_chart);
+          addData(profit_chart, res.labels, res.profits)
 
           $("#submit").prop('disabled', false);
           $("#spinner_text").text("Calculate");
@@ -239,22 +375,33 @@
 
           let idx = $("#log").children().length + 1;
 
+          const backtest_data = [idx, 'ETH / USDC', upper_limit, lower_limit, deposit_amount, grid_quantity, quantity_per_grid, start_date, end_date, res.profit, res.apy]
+          
+          let saved_data = JSON.parse(localStorage.getItem("profit"));
+          
+          if (saved_data === null) {
+            saved_data = []
+          }
+          
+          saved_data.push(backtest_data)
+          localStorage.setItem("profit", JSON.stringify(saved_data));
+
           $("#log").append(
             `<tr>
-              <th scope='row'>${idx}</th>
-              <td>ETH / USDC</td>
-              <td>${ res.labels[0] }</td>
-              <td>${ res.labels[res.labels.length - 1] }</td>
-              <td>$ ${ res.profit }</td>
-              <td>${res.apy} %</td>
+              <th scope='row'>${ backtest_data[0] }</th>
+              <td>${ backtest_data[1] }</td>
+              <td>${ backtest_data[7] }</td>
+              <td>${ backtest_data[8] }</td>
+              <td>$ ${ backtest_data[9] }</td>
+              <td>${ backtest_data[10] } %</td>
               <td>
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detail${idx}">
+                <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detail${backtest_data[0]}">
                     More
                 </button>
                 
                 <!-- Modal -->
-                <div class="modal fade" id="detail${idx}" tabindex="-1" aria-labelledby="detailTitle" aria-hidden="true">
+                <div class="modal fade" id="detail${backtest_data[0]}" tabindex="-1" aria-labelledby="detailTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -268,9 +415,9 @@
                                         <th>Trading Pair</th>
                                         <th>Upper Price Limit</th>
                                         <th>Lower Price Limit</th>
-                                        <th>Deposit Amount</th>
+                                        <th>Deposit Amount(USDC)</th>
                                         <th>Grid Quantity</th>
-                                        <th>Quantity per Grid</th>
+                                        <th>Quantity per Grid(ETH)</th>
                                         <th>From</th>
                                         <th>To</th>
                                         <th>Profit($)</th>
@@ -279,16 +426,16 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>ETH / USDC</td>
-                                        <td>${upper_limit}</td>
-                                        <td>${lower_limit}</td>
-                                        <td>${deposit_amount}</td>
-                                        <td>${grid_quantity}</td>
-                                        <td>${quantity_per_grid}</td>
-                                        <td>${start_date}</td>
-                                        <td>${end_date}</td>
-                                        <td>${ res.profit }</td>
-                                        <td>${res.apy}</td>
+                                        <td>${ backtest_data[1] }</td>
+                                        <td>${ backtest_data[2] }</td>
+                                        <td>${ backtest_data[3] }</td>
+                                        <td>${ backtest_data[4] }</td>
+                                        <td>${ backtest_data[5] }</td>
+                                        <td>${ backtest_data[6] }</td>
+                                        <td>${ backtest_data[7] }</td>
+                                        <td>${ backtest_data[8] }</td>
+                                        <td>${ backtest_data[9] }</td>
+                                        <td>${ backtest_data[10] }</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -300,7 +447,7 @@
                     </div>
                 </div>
             </td>
-            </tr>` 
+            </tr>`
           );
 
           $('.modal').on('shown.bs.modal', function() {
@@ -316,14 +463,18 @@
       $("#delete").click(function(){
         console.log("OK");
         if (confirm("Delete Log?") == true) {
-          $.getJSON('/delete', {},
-          function(res) {
-            alert("Delete Successfully.")
-            $("#log").empty();
-          });
+          localStorage.removeItem('profit')
+          $("#log").empty();
         } else {
           return
         }
+      });
+
+      $('.modal').on('shown.bs.modal', function() {
+        //Make sure the modal and backdrop are siblings (changes the DOM)
+        $(this).before($('.modal-backdrop'));
+        //Make sure the z-index is higher than the backdrop
+        $(this).css("z-index", parseInt($('.modal-backdrop').css('z-index')) + 1);
       });
     }
 
@@ -334,7 +485,7 @@
       
       profits.forEach(profit => {
         let value = +profit;
-        console.log(value)
+        
         chart.data.datasets.forEach((dataset) => {
           dataset.data.push(value);
         });
@@ -364,13 +515,6 @@
         return ""
       }
     }
-
-    $('.modal').on('shown.bs.modal', function() {
-      //Make sure the modal and backdrop are siblings (changes the DOM)
-      $(this).before($('.modal-backdrop'));
-      //Make sure the z-index is higher than the backdrop
-      $(this).css("z-index", parseInt($('.modal-backdrop').css('z-index')) + 1);
-    });
 
     // WOW active
     new WOW().init();
