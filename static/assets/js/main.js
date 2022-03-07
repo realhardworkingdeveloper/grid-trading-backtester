@@ -112,11 +112,17 @@
       const data2 = {
         labels: [],
         datasets: [{
-          label: 'Price Histogram',
+          label: 'Grid Lines',
           barPercentage: 1,
           categoryPercentage: 1,
           data: [],
           backgroundColor: 'rgba(255, 0, 0, 0.7)',
+        },{
+          label: 'Price Histogram',
+          barPercentage: 1,
+          categoryPercentage: 1,
+          data: [],
+          backgroundColor: 'rgba(0, 255, 0, 0.7)',
         }]
       };
 
@@ -125,12 +131,32 @@
         data: data2,
         options: {
           scales: {
+            x: {
+              stacked: true
+            },
             y: {
               ticks:{
-                display: false
+                display: true
               }
             }
-          }
+          },
+          // plugins: {
+          //   zoom: {
+          //     pan:{
+          //       enabled: true,
+          //       mode: 'x'
+          //     },
+          //     zoom: {
+          //       wheel: {
+          //         enabled: true
+          //       },
+          //       // pinch: {
+          //       //   enabled: true
+          //       // },
+          //       mode: 'x',
+          //     }
+          //   }
+          // }
         },
       };
 
@@ -230,6 +256,8 @@
 
       // Upper limit and Lower limit validator
       $("#upper_limit").keyup(function(){
+        price_chart.data.datasets[0].data = [];
+        
         let upper_limit = +$("#upper_limit").val()
         let lower_limit = +$("#lower_limit").val()
 
@@ -237,12 +265,17 @@
           $("#upper_limit_error").show();
         } else {
           $("#upper_limit_error").hide();
+
+          updateGrid();
         }
 
         $('#deposit_amount_select').trigger('change');
+        price_chart.update();
       });
 
       $("#lower_limit").keyup(function(ev){
+        price_chart.data.datasets[0].data = [];
+
         let upper_limit = +$("#upper_limit").val()
         let lower_limit = +$("#lower_limit").val()
 
@@ -250,22 +283,29 @@
           $("#lower_limit_error").show();
         } else {
           $("#lower_limit_error").hide();
+
+          updateGrid();
         }
 
         $('#deposit_amount_select').trigger('change');
+        price_chart.update();
       });
 
       // It is for grid quantity validator
       $("#grid_quantity").keyup(function(ev){
+        price_chart.data.datasets[0].data = [];
         let grid_quantity = +$("#grid_quantity").val()
 
         if (grid_quantity < 3) {
           $("#grid_quantity_error").show();
         } else {
           $("#grid_quantity_error").hide();
+
+          updateGrid();
         }
 
         $('#deposit_amount_select').trigger('change');
+        price_chart.update();
       });
 
       // It is for quantity per grid
@@ -308,9 +348,50 @@
           start_date: Date.parse(start_date),
           end_date: Date.parse(end_date),
         }, function(res) {
-          console.log(res)
+          price_chart.resetZoom();
           removeData(price_chart);
-          addData(price_chart, res.price_label, res.price_hist)
+
+          console.log(res)
+
+          let labels = res.price_label
+          let price_hist = res.price_hist
+
+          labels.forEach(label => {
+            price_chart.data.labels.push(label);
+          });
+          
+          price_hist.forEach(price => {
+            let value = +price;
+            
+            price_chart.data.datasets[1].data.push(value);
+          });
+
+          updateGrid();
+          
+          // let max_val = Math.max(...price_hist)
+
+          // let upper_limit = +$("#upper_limit").val()
+          // let lower_limit = +$("#lower_limit").val()
+          // let grid_quantity = +$("#grid_quantity").val()
+
+          // let grid_array = Array(10000).fill(0);
+          
+          // if (grid_quantity > 3) {
+          //   let grid_width = (upper_limit - lower_limit) / (grid_quantity - 1);
+
+          //   for(let grid = lower_limit, i = 0; i < grid_quantity ; i ++) {
+          //     grid_array[Math.round(grid)] = max_val
+          //     grid += grid_width;
+          //   }
+
+          //   grid_array = grid_array.slice(labels[0], labels[labels.length-1] + 1)
+
+          //   grid_array.forEach(grid => {
+          //     price_chart.data.datasets[0].data.push(grid);
+          //   });
+          // }
+    
+          price_chart.update();
 
           $("#update").prop('disabled', false);
           $("#update_spinner").hide();
@@ -331,7 +412,7 @@
         start_date = changeDateFormat(start_date);
         end_date = changeDateFormat(end_date);
 
-        let overflow = quantity_per_grid*(grid_quantity-1) - deposit_amount;
+        let overflow = quantity_per_grid * (grid_quantity - 1) - deposit_amount;
 
         if(Date.parse(start_date) >= Date.parse(end_date)) {
           $("#end_date_error_1").show();
@@ -341,8 +422,6 @@
         }
 
         if (Date.parse(end_date) > Date.now() || Date.parse(start_date) > Date.now() || start_date == '' || end_date == '') {
-          console.log(end_date)
-          console.log(start_date)
           alert("Check Start Date and End Date");
           return
         }
@@ -476,6 +555,40 @@
         //Make sure the z-index is higher than the backdrop
         $(this).css("z-index", parseInt($('.modal-backdrop').css('z-index')) + 1);
       });
+
+      function updateGrid() {
+        let labels = price_chart.data.labels
+        let max_val = Math.max(...price_chart.data.datasets[1].data)
+        
+        if (max_val > 0) {
+
+          let upper_limit = +$("#upper_limit").val()
+          let lower_limit = +$("#lower_limit").val()
+          let grid_quantity = +$("#grid_quantity").val()
+
+          if (upper_limit > lower_limit && grid_quantity > 3) {
+    
+            let grid_array = Array(10000).fill(0);
+            
+            if (grid_quantity > 3) {
+              let grid_width = (upper_limit - lower_limit) / (grid_quantity - 1);
+      
+              for(let grid = lower_limit, i = 0; i < grid_quantity ; i ++) {
+                grid_array[Math.round(grid)] = max_val
+                grid += grid_width;
+              }
+      
+              grid_array = grid_array.slice(labels[0], labels[labels.length-1] + 1)
+
+              console.log(grid_array)
+            
+              grid_array.forEach(grid => {
+                price_chart.data.datasets[0].data.push(grid);
+              });
+            }
+          }
+        }
+      }
     }
 
     function addData(chart, labels, profits) {

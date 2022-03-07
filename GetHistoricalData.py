@@ -79,6 +79,6 @@ class GetHistoricaData():
         price_histogram = price_histogram[st:en]
         
         for i in range(st, en):
-            price_label.append(str(i))
+            price_label.append(i)
         
         return (price_histogram, price_label)

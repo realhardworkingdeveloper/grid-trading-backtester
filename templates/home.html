@@ -4,230 +4,239 @@
     <div class="feature section">
         <div class="feature-box">
             <div class="row">
-                <div class="col-lg-4">
-                    <h4 class="text-title">Select Marketplace</h4>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <select>
-                        <option value="0" >
-                            Binance Crypto Exchange
-                        </option>
-                    </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <h4 class="text-title">Select Trading Pair</h4>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <select>
-                        <option value="ETH" >
-                            ETH
-                        </option>
-                    </select>
-                </div>
-                <div class="col-lg-6">
-                    <select>
-                        <option value="USDC" >
-                            USDC
-                        </option>
-                    </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
+                <div class="col-4">
                     <div class="row">
-                        <h4 class="text-title">Start Date</h4>
+                        <div class="col-12">
+                            <h4 class="text-title">Select Marketplace</h4>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <div class="form-group">
-                                <input id="start_date" type="text" class="datepicker form-control clickable input-md" placeholder="Select Start Date">
+                            <select>
+                                <option value="0" >
+                                    Binance Crypto Exchange
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="text-title">Select Trading Pair</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <select>
+                                <option value="ETH" >
+                                    ETH
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <select>
+                                <option value="USDC" >
+                                    USDC
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <h4 class="text-title">Start Date</h4>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <input id="start_date" type="text" class="datepicker form-control clickable input-md" placeholder="Select Start Date">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <p id="start_date_error" class="text-danger">Start Date should be past date.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <h4 class="text-title">End Date</h4>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <input id="end_date" type="text" class="datepicker form-control clickable input-md" placeholder="Select End Date">
+                                      </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <p id="end_date_error_0" class="text-danger">End Date should be past date.</p>
+                                    <p id="end_date_error_1" class="text-danger">End Date should be after start date.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <h4 class="text-title">Upper Price Limit</h4>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <input id="upper_limit" type="number" value="4500" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <p id="upper_limit_error" class="text-danger">Upper Limit should be bigger than Lower Limit.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <h4 class="text-title">Lower Price Limit</h4>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <input id="lower_limit" type="number" value="500" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <p id="lower_limit_error" class="text-danger">Lower Limit should be less than Bigger Limit and bigger than 0.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <h4 class="text-title">Deposit Amount</h4>
+                            </div>
+                            <div class="row">
+                                <div class="col-8">
+                                    <input id="deposit_amount" value="102500" disabled/>
+                                </div>
+                                <div class="col-4">
+                                    <select id="deposit_amount_select">
+                                        <option value="0" >
+                                            USDC
+                                        </option>
+                                        <option value="1" >
+                                            ETH
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <p id="deposit_amount_error" class="text-danger">Deposit amount should be bigger than 0.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <p id="start_date_error" class="text-danger">Start Date should be past date.</p>
+                            <div class="row">
+                                <h4 class="text-title">Grid Quantity</h4>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <input id="grid_quantity" type="number" value="10" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <p id="grid_quantity_error" class="text-danger">Grid Quantity Should be bigger than 2.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <h4 class="text-title">Quantity per Grid</h4>
+                            </div>
+                            <div class="row">
+                                <div class="col-8">
+                                    <input id="quantity_per_grid" type="number" value="5" />
+                                </div>
+                                <div class="col-4">
+                                    <select>
+                                        <option value="0" >
+                                            ETH
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <p id="quantity_per_grid_error" class="text-danger">Quantity Per Grid Should be bigger than 0.</p>
+                                    <p id="deposit_more_error" class="text-danger"></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-8">
                     <div class="row">
-                        <h4 class="text-title">End Date</h4>
+                        <div class="row">
+                            <div class="col-6">
+                                <h4 class="text-title">Price Histogram</h4>
+                            </div>
+                            <div class="offset-3 col-3" style="align-self: center;">
+                                <button id="update" class="btn btn-primary" type="button">
+                                    <span id="update_spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                    <span id="update_spinner_text" class="sr-only">Update</span>
+                                </button>
+                            </div>
+                        </div>
+                        <canvas id="price_hist" width="100%"></canvas>
                     </div>
                     <div class="row">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <input id="end_date" type="text" class="datepicker form-control clickable input-md" placeholder="Select End Date">
-                              </div>
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h4 class="text-title">Profit</h4>
+                                </div>
+                                <div class="offset-3 col-3" style="align-self: center;">
+                                    <button id="submit" class="btn btn-primary" type="button">
+                                        <span id="spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                        <span id="spinner_text" class="sr-only">Calculate</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <canvas id="profit" width="100%"></canvas>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12">
-                            <p id="end_date_error_0" class="text-danger">End Date should be past date.</p>
-                            <p id="end_date_error_1" class="text-danger">End Date should be after start date.</p>
+                        <div class="offset-lg-1 col-lg-4">
+                            <div class="row">
+                                <h4 class="text-title">Total Profit</h4>
+                            </div>
+                            <div class="row">
+                                <div id="total_profit" class="btn btn-lg btn-outline-primary">
+                                    $ -
+                                </div>
+                            </div>
+                        </div>
+                        <div class="offset-lg-2 col-lg-4">
+                            <div class="row">
+                                <h4 class="text-title">APY</h4>
+                            </div>
+                            <div class="row">
+                                <div id="apy" class="btn btn-lg btn-outline-primary">
+                                    - %
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="row">
-                    <div class="col-6">
-                        <h4 class="text-title">Price Histogram</h4>
-                    </div>
-                    <div class="offset-3 col-3" style="align-self: center;">
-                        <button id="update" class="btn btn-primary" type="button">
-                            <span id="update_spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                            <span id="update_spinner_text" class="sr-only">Update</span>
-                        </button>
-                    </div>
-                </div>
-                <canvas id="price_hist" width="100%"></canvas>
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="row">
-                        <h4 class="text-title">Upper Price Limit</h4>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <input id="upper_limit" type="number" value="4500" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <p id="upper_limit_error" class="text-danger">Upper Limit should be bigger than Lower Limit.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="row">
-                        <h4 class="text-title">Lower Price Limit</h4>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <input id="lower_limit" type="number" value="500" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <p id="lower_limit_error" class="text-danger">Lower Limit should be less than Bigger Limit and bigger than 0.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="row">
-                        <h4 class="text-title">Deposit Amount</h4>
-                    </div>
-                    <div class="row">
-                        <div class="col-8">
-                            <input id="deposit_amount" value="102500" disabled/>
-                        </div>
-                        <div class="col-4">
-                            <select id="deposit_amount_select">
-                                <option value="0" >
-                                    USDC
-                                </option>
-                                <option value="1" >
-                                    ETH
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <p id="deposit_amount_error" class="text-danger">Deposit amount should be bigger than 0.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="row">
-                        <h4 class="text-title">Grid Quantity</h4>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <input id="grid_quantity" type="number" value="10" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <p id="grid_quantity_error" class="text-danger">Grid Quantity Should be bigger than 2.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="row">
-                        <h4 class="text-title">Quantity per Grid</h4>
-                    </div>
-                    <div class="row">
-                        <div class="col-8">
-                            <input id="quantity_per_grid" type="number" value="5" />
-                        </div>
-                        <div class="col-4">
-                            <select>
-                                <option value="0" >
-                                    ETH
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <p id="quantity_per_grid_error" class="text-danger">Quantity Per Grid Should be bigger than 0.</p>
-                            <p id="deposit_more_error" class="text-danger"></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="row">
-                        <div class="col-6">
-                            <h4 class="text-title">Profit</h4>
-                        </div>
-                        <div class="offset-3 col-3" style="align-self: center;">
-                            <button id="submit" class="btn btn-primary" type="button">
-                                <span id="spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                <span id="spinner_text" class="sr-only">Calculate</span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <canvas id="profit" width="100%"></canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="offset-lg-1 col-lg-4">
-                    <div class="row">
-                        <h4 class="text-title">Total Profit</h4>
-                    </div>
-                    <div class="row">
-                        <div id="total_profit" class="btn btn-lg btn-outline-primary">
-                            $ -
-                        </div>
-                    </div>
-                </div>
-                <div class="offset-lg-2 col-lg-4">
-                    <div class="row">
-                        <h4 class="text-title">APY</h4>
-                    </div>
-                    <div class="row">
-                        <div id="apy" class="btn btn-lg btn-outline-primary">
-                            - %
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
             <div class="row">
                 <div class="row">
                     <div class="col-6">

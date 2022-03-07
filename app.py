@@ -39,7 +39,11 @@ def report():
 
     profit = float(profits[-1])
     amount_for_bot_usage = ((upper_limit + lower_limit) / 2 * grid_quantity - upper_limit) * quantity_per_grid
-    apy = round((profit / amount_for_bot_usage) * 10000) / 100
+    # apy = round((profit / amount_for_bot_usage) * 10000) / 100
+    if len(labels) > 0:
+        apy = round((profit / len(labels)) * 365 * 10000 / amount_for_bot_usage) / 100
+    else:
+        apy = 0
     
     return jsonify(profits = profits, labels = labels, profit = profit, apy = apy)
 
