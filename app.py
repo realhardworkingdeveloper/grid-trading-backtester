@@ -12,8 +12,16 @@ app = Flask(__name__) #creating the Flask class object
 def home():
     price_hist = []
     price_val = []
+
+    now = round(time() * 1000)
+
+    start_date = datetime.strptime('01.01.2022', '%d.%m.%Y')
+    start = int(start_date.timestamp() * 1000)
+
+    get_historical_data = GetHistoricaData(start, now)
+    klines = get_historical_data.run()
     
-    return render_template('home.html')
+    return render_template('home.html', klines = klines)
 
 @app.route('/simulate', methods=['GET'])
 def report():
@@ -53,9 +61,9 @@ def update():
     end_date = int(request.args.get('end_date', type=float))
 
     get_historical_data = GetHistoricaData(start_date, end_date)
-    (price_hist, price_label) = get_historical_data.run()
+    klines = get_historical_data.run()
     
-    return jsonify(price_hist = price_hist, price_label = price_label)
+    return jsonify(klines = klines)
   
 
 if __name__ =='__main__':

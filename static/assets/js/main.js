@@ -1,9 +1,26 @@
+
+function changeDateFormat(dateString) {
+  let parts = dateString.split("/");
+  if(parts.length == 3) {
+    return parts[1] + "/" + parts[0] + "/" + parts[2]
+  } else {
+    return ""
+  }
+}
+
 (function () {
     //===== Prealoder
 
     window.onload = function () {
       // It is for preloader
       window.setTimeout(fadeout, 500);
+
+      var currentdate = new Date(); 
+      var datetime = currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear();
+      
+                $("#end_date").val(datetime);
 
       let saved_data = JSON.parse(localStorage.getItem("profit"));
       if (saved_data !== null)
@@ -106,62 +123,6 @@
 
       const profit_chart = new Chart(ctx1, config1);
 
-      // Price hist
-      const ctx2 = document.getElementById('price_hist').getContext('2d');
-
-      const data2 = {
-        labels: [],
-        datasets: [{
-          label: 'Grid Lines',
-          barPercentage: 1,
-          categoryPercentage: 1,
-          data: [],
-          backgroundColor: 'rgba(255, 0, 0, 0.7)',
-        },{
-          label: 'Price Histogram',
-          barPercentage: 1,
-          categoryPercentage: 1,
-          data: [],
-          backgroundColor: 'rgba(0, 255, 0, 0.7)',
-        }]
-      };
-
-      const config2 = {
-        type: 'bar',
-        data: data2,
-        options: {
-          scales: {
-            x: {
-              stacked: true
-            },
-            y: {
-              ticks:{
-                display: true
-              }
-            }
-          },
-          // plugins: {
-          //   zoom: {
-          //     pan:{
-          //       enabled: true,
-          //       mode: 'x'
-          //     },
-          //     zoom: {
-          //       wheel: {
-          //         enabled: true
-          //       },
-          //       // pinch: {
-          //       //   enabled: true
-          //       // },
-          //       mode: 'x',
-          //     }
-          //   }
-          // }
-        },
-      };
-
-      const price_chart = new Chart(ctx2, config2);
-
       // It is for error message
       $(".text-danger").hide();
       $("#spinner").hide();
@@ -256,8 +217,6 @@
 
       // Upper limit and Lower limit validator
       $("#upper_limit").keyup(function(){
-        price_chart.data.datasets[0].data = [];
-        
         let upper_limit = +$("#upper_limit").val()
         let lower_limit = +$("#lower_limit").val()
 
@@ -265,16 +224,12 @@
           $("#upper_limit_error").show();
         } else {
           $("#upper_limit_error").hide();
-
-          updateGrid();
         }
 
         $('#deposit_amount_select').trigger('change');
-        price_chart.update();
       });
 
       $("#lower_limit").keyup(function(ev){
-        price_chart.data.datasets[0].data = [];
 
         let upper_limit = +$("#upper_limit").val()
         let lower_limit = +$("#lower_limit").val()
@@ -283,29 +238,22 @@
           $("#lower_limit_error").show();
         } else {
           $("#lower_limit_error").hide();
-
-          updateGrid();
         }
 
         $('#deposit_amount_select').trigger('change');
-        price_chart.update();
       });
 
       // It is for grid quantity validator
       $("#grid_quantity").keyup(function(ev){
-        price_chart.data.datasets[0].data = [];
         let grid_quantity = +$("#grid_quantity").val()
 
         if (grid_quantity < 3) {
           $("#grid_quantity_error").show();
         } else {
           $("#grid_quantity_error").hide();
-
-          updateGrid();
         }
 
         $('#deposit_amount_select').trigger('change');
-        price_chart.update();
       });
 
       // It is for quantity per grid
@@ -319,84 +267,6 @@
         }
 
         $('#deposit_amount_select').trigger('change');
-      });
-
-      $("#update").click(function() {
-        let start_date = $("#start_date").val()
-        let end_date= $("#end_date").val()
-
-        start_date = changeDateFormat(start_date);
-        end_date = changeDateFormat(end_date);
-
-        if(Date.parse(start_date) >= Date.parse(end_date)) {
-          $("#end_date_error_1").show();
-          return
-        } else {
-          $("#end_date_error_1").hide();
-        }
-
-        if (Date.parse(end_date) > Date.now() || Date.parse(start_date) > Date.now() || start_date == '' || end_date == '') {
-          alert("Check Start Date and End Date");
-          return
-        }
-
-        $("#update").prop('disabled', true);
-        $("#update_spinner").show();
-        $("#update_spinner_text").text("Updating...");
-
-        $.getJSON('/update', {
-          start_date: Date.parse(start_date),
-          end_date: Date.parse(end_date),
-        }, function(res) {
-          price_chart.resetZoom();
-          removeData(price_chart);
-
-          console.log(res)
-
-          let labels = res.price_label
-          let price_hist = res.price_hist
-
-          labels.forEach(label => {
-            price_chart.data.labels.push(label);
-          });
-          
-          price_hist.forEach(price => {
-            let value = +price;
-            
-            price_chart.data.datasets[1].data.push(value);
-          });
-
-          updateGrid();
-          
-          // let max_val = Math.max(...price_hist)
-
-          // let upper_limit = +$("#upper_limit").val()
-          // let lower_limit = +$("#lower_limit").val()
-          // let grid_quantity = +$("#grid_quantity").val()
-
-          // let grid_array = Array(10000).fill(0);
-          
-          // if (grid_quantity > 3) {
-          //   let grid_width = (upper_limit - lower_limit) / (grid_quantity - 1);
-
-          //   for(let grid = lower_limit, i = 0; i < grid_quantity ; i ++) {
-          //     grid_array[Math.round(grid)] = max_val
-          //     grid += grid_width;
-          //   }
-
-          //   grid_array = grid_array.slice(labels[0], labels[labels.length-1] + 1)
-
-          //   grid_array.forEach(grid => {
-          //     price_chart.data.datasets[0].data.push(grid);
-          //   });
-          // }
-    
-          price_chart.update();
-
-          $("#update").prop('disabled', false);
-          $("#update_spinner").hide();
-          $("#update_spinner_text").text("Update");
-        });
       });
 
       // It is for submit button
@@ -536,7 +406,6 @@
             $(this).css("z-index", parseInt($('.modal-backdrop').css('z-index')) + 1);
           });
         });
-        
       });
 
       $("#delete").click(function(){
@@ -555,40 +424,6 @@
         //Make sure the z-index is higher than the backdrop
         $(this).css("z-index", parseInt($('.modal-backdrop').css('z-index')) + 1);
       });
-
-      function updateGrid() {
-        let labels = price_chart.data.labels
-        let max_val = Math.max(...price_chart.data.datasets[1].data)
-        
-        if (max_val > 0) {
-
-          let upper_limit = +$("#upper_limit").val()
-          let lower_limit = +$("#lower_limit").val()
-          let grid_quantity = +$("#grid_quantity").val()
-
-          if (upper_limit > lower_limit && grid_quantity > 3) {
-    
-            let grid_array = Array(10000).fill(0);
-            
-            if (grid_quantity > 3) {
-              let grid_width = (upper_limit - lower_limit) / (grid_quantity - 1);
-      
-              for(let grid = lower_limit, i = 0; i < grid_quantity ; i ++) {
-                grid_array[Math.round(grid)] = max_val
-                grid += grid_width;
-              }
-      
-              grid_array = grid_array.slice(labels[0], labels[labels.length-1] + 1)
-
-              console.log(grid_array)
-            
-              grid_array.forEach(grid => {
-                price_chart.data.datasets[0].data.push(grid);
-              });
-            }
-          }
-        }
-      }
     }
 
     function addData(chart, labels, profits) {
@@ -620,15 +455,248 @@
         document.querySelector('.preloader').style.display = 'none';
     }
 
-    function changeDateFormat(dateString) {
-      let parts = dateString.split("/");
-      if(parts.length == 3) {
-        return parts[1] + "/" + parts[0] + "/" + parts[2]
-      } else {
-        return ""
-      }
-    }
-
     // WOW active
     new WOW().init();
 })();
+
+am5.ready(function() {
+
+  var root = am5.Root.new("price-chart");
+
+  root.setThemes([am5themes_Animated.new(root)]);
+
+  var data = klines_;
+
+  // Create chart
+  var chart = root.container.children.push(
+    am5xy.XYChart.new(root, {
+      focusable: true,
+      panX: true,
+      panY: true,
+      wheelX: "panX",
+      wheelY: "zoomX"
+    })
+  );
+
+  // Create axes
+  var xAxis = chart.xAxes.push(
+    am5xy.DateAxis.new(root, {
+      groupData: true,
+      maxDeviation:0.5,
+      baseInterval: { timeUnit: "day", count: 1 },
+      renderer: am5xy.AxisRendererX.new(root, {pan:"zoom"}),
+      tooltip: am5.Tooltip.new(root, {})
+    })
+  );
+
+  var yAxis = chart.yAxes.push(
+    am5xy.ValueAxis.new(root, {
+      maxDeviation:1,
+      renderer: am5xy.AxisRendererY.new(root, {pan:"zoom"})
+    })
+  );
+
+  var color = root.interfaceColors.get("background");
+
+  // Add series
+  var series = chart.series.push(
+    am5xy.CandlestickSeries.new(root, {
+      fill: color,
+      calculateAggregates: true,
+      stroke: color,
+      name: "ETH / USDT",
+      xAxis: xAxis,
+      yAxis: yAxis,
+      valueYField: "value",
+      openValueYField: "open",
+      lowValueYField: "low",
+      highValueYField: "high",
+      valueXField: "date",
+      lowValueYGrouped: "low",
+      highValueYGrouped: "high",
+      openValueYGrouped: "open",
+      valueYGrouped: "close",
+      legendValueText:
+        "open: {openValueY} low: {lowValueY} high: {highValueY} close: {valueY}",
+      legendRangeValueText: "{valueYClose}",
+      tooltip: am5.Tooltip.new(root, {
+        pointerOrientation: "horizontal",
+        labelText: "open: {openValueY}\nlow: {lowValueY}\nhigh: {highValueY}\nclose: {valueY}"
+      })
+    })
+  );
+
+  // Add cursor
+  var cursor = chart.set(
+    "cursor",
+    am5xy.XYCursor.new(root, {
+      xAxis: xAxis
+    })
+  );
+  cursor.lineY.set("visible", true);
+
+  // Stack axes vertically
+  chart.leftAxesContainer.set("layout", root.verticalLayout);
+
+  // Add scrollbar
+  var scrollbar = am5xy.XYChartScrollbar.new(root, {
+    orientation: "horizontal",
+    height: 50
+  });
+  chart.set("scrollbarX", scrollbar);
+
+  var sbxAxis = scrollbar.chart.xAxes.push(
+    am5xy.DateAxis.new(root, {
+      groupData: true,
+      groupIntervals: [{ timeUnit: "week", count: 1 }],
+      baseInterval: { timeUnit: "day", count: 1 },
+      renderer: am5xy.AxisRendererX.new(root, {
+        opposite: false,
+        strokeOpacity: 0
+      })
+    })
+  );
+
+  var sbyAxis = scrollbar.chart.yAxes.push(
+    am5xy.ValueAxis.new(root, {
+      renderer: am5xy.AxisRendererY.new(root, {})
+    })
+  );
+
+  var sbseries = scrollbar.chart.series.push(
+    am5xy.LineSeries.new(root, {
+      xAxis: sbxAxis,
+      yAxis: sbyAxis,
+      valueYField: "value",
+      valueXField: "date"
+    })
+  );
+
+  // Add legend
+  var legend = yAxis.axisHeader.children.push(am5.Legend.new(root, {}));
+
+  legend.data.push(series);
+
+  legend.markers.template.setAll({
+    width: 10
+  });
+
+  legend.markerRectangles.template.setAll({
+    cornerRadiusTR: 0,
+    cornerRadiusBR: 0,
+    cornerRadiusTL: 0,
+    cornerRadiusBL: 0
+  });
+
+  function drawGridLines(grid_price) {
+    var grid_series = chart.series.push(
+      am5xy.LineSeries.new(root, {
+        name: "Grid",
+        xAxis: xAxis,
+        yAxis: yAxis,
+        valueYField: "value",
+        valueXField: "date" 
+      })
+    );
+
+    var grid = []
+    data.forEach(value => {
+      grid.push({
+        date: value.date,
+        value: grid_price
+      })
+    });
+
+
+    grid_series.data.setAll(grid);
+  }
+
+  function updateGridLines() {
+    let upper_limit = +$("#upper_limit").val()
+    let lower_limit = +$("#lower_limit").val()
+    let grid_quantity = +$("#grid_quantity").val()
+
+    while(chart.series.length > 1) {
+      chart.series.pop();
+    }
+    
+    if (grid_quantity >= 3 && upper_limit > lower_limit) {
+      let grid_width = (upper_limit - lower_limit) / (grid_quantity - 1);
+
+      for(let grid = lower_limit, i = 0; i < grid_quantity ; i ++) {
+        drawGridLines(grid);
+        grid += grid_width;
+      }
+    }
+  }
+
+  updateGridLines()
+
+  // set data
+  series.data.setAll(data);
+  sbseries.data.setAll(data);
+
+  // Make stuff animate on load
+  series.appear(1000);
+  chart.appear(1000, 100);
+
+  $("#update").click(function() {
+    let start_date = $("#start_date").val()
+    let end_date= $("#end_date").val()
+
+    start_date = changeDateFormat(start_date);
+    end_date = changeDateFormat(end_date);
+
+    if(Date.parse(start_date) >= Date.parse(end_date)) {
+      $("#end_date_error_1").show();
+      return
+    } else {
+      $("#end_date_error_1").hide();
+    }
+
+    if (Date.parse(end_date) > Date.now() || Date.parse(start_date) > Date.now() || start_date == '' || end_date == '') {
+      alert("Check Start Date and End Date");
+      return
+    }
+
+    $("#update").prop('disabled', true);
+    $("#update_spinner").show();
+    $("#update_spinner_text").text("Updating...");
+
+    $.getJSON('/update', {
+      start_date: Date.parse(start_date),
+      end_date: Date.parse(end_date),
+    }, function(res) {
+      
+      data = res.klines;
+      
+      // set data
+      series.data.setAll(data);
+      sbseries.data.setAll(data);
+
+      updateGridLines();
+
+      // Make stuff animate on load
+      series.appear(1000);
+      chart.appear(1000, 100);
+
+      $("#update").prop('disabled', false);
+      $("#update_spinner").hide();
+      $("#update_spinner_text").text("Update");
+    });
+  });
+
+  // Upper limit and Lower limit validator
+  $("#upper_limit").keyup(function(){
+    updateGridLines();
+  });
+
+  $("#lower_limit").keyup(function(ev){
+    updateGridLines();
+  });
+
+  $("#grid_quantity").keyup(function(ev){
+    updateGridLines();
+  });
+
+}); // end am5.ready()
