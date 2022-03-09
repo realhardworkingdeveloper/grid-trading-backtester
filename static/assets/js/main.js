@@ -517,11 +517,11 @@ am5.ready(function() {
       openValueYGrouped: "open",
       valueYGrouped: "close",
       legendValueText:
-        "open: {openValueY} low: {lowValueY} high: {highValueY} close: {valueY}",
+        "Open: {openValueY} Low: {lowValueY} High: {highValueY} Close: {valueY}",
       legendRangeValueText: "{valueYClose}",
       tooltip: am5.Tooltip.new(root, {
         pointerOrientation: "horizontal",
-        labelText: "open: {openValueY}\nlow: {lowValueY}\nhigh: {highValueY}\nclose: {valueY}"
+        labelText: "Open: {openValueY}\nLow: {lowValueY}\nHigh: {highValueY}\nClose: {valueY}"
       })
     })
   );
@@ -588,7 +588,13 @@ am5.ready(function() {
     cornerRadiusBL: 0
   });
 
+  var colorSet = am5.ColorSet.new(root, {});
+
   function drawGridLines(grid_price) {
+    
+
+    console.log(colorSet);
+
     var grid_series = chart.series.push(
       am5xy.LineSeries.new(root, {
         name: "Grid",
@@ -599,11 +605,20 @@ am5.ready(function() {
       })
     );
 
+    grid_series.strokes.template.setAll({
+      templateField: "strokeSettings",
+      strokeWidth: 1
+    });
+    
+
     var grid = []
     data.forEach(value => {
       grid.push({
         date: value.date,
-        value: grid_price
+        value: grid_price,
+        strokeSettings: {
+          stroke: colorSet.getIndex(1)
+        }
       })
     });
 
