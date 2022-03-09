@@ -292,11 +292,17 @@ function changeDateFormat(dateString) {
         }
 
         if (Date.parse(end_date) > Date.now() || Date.parse(start_date) > Date.now() || start_date == '' || end_date == '') {
-          alert("Check Start Date and End Date");
+          alert("Check Start Date and End Date.");
           return
         }
 
         if (upper_limit <= lower_limit || lower_limit * grid_quantity * quantity_per_grid * deposit_amount <= 0 || overflow > 0) {
+          alert("Check Parameters.");
+          return
+        }
+
+        if(quantity_per_grid <= 0) {
+          alert("Check Parameters.");
           return
         }
 
